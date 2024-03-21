@@ -9,9 +9,8 @@ imutils
 pyrogram
 pysftp
 yt-dlp
-paho-mqtt
 libtorrent
 torrentp
 matplotlib
 pandas
-paho-mqtt<2.0.0
+paho-mqtt>=1.5.0,<2.0.0
