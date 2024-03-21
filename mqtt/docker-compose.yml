@@ -1,0 +1,52 @@
+version: '3.3'
+
+networks:
+  d_bridge:
+    driver: bridge
+  d_isolated:
+    driver: bridge
+    internal: false
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+
+services:
+  broker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      d_isolated:
+        ipv4_address: 172.18.0.2
+    expose:
+       - 1883
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+
+  publisher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - broker
+    networks:
+      d_isolated:
+        ipv4_address: 172.18.0.3
+    expose:
+      - 1883
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+
+  subscriber:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - broker
+    networks:
+      d_isolated:
+        ipv4_address: 172.18.0.4
+    expose:
+      - 1883
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
